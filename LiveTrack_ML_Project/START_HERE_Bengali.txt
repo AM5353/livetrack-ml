@@ -1,0 +1,24 @@
+LIVETRACK ML — একদম শুরু থেকে চালানোর নিয়ম (Windows)
+
+১) LiveTrack_ML_Project.zip ফাইলটি Download করুন।
+২) ZIP ফাইলের উপর Right-click করে Extract All… চাপুন। তারপর Extract চাপুন।
+৩) Extract হওয়া LiveTrack_ML_Project ফোল্ডারটি খুলুন।
+৪) ওই ফোল্ডারের ভিতরে run_windows.bat ফাইলটি খুঁজুন।
+৫) run_windows.bat-এ Double-click করুন। প্রথমবার Python package install হবে; এতে Internet লাগবে।
+৬) কালো Terminal window বন্ধ করবেন না। সেখানে Running on http://127.0.0.1:5000 লেখা এলে Chrome-এ এই ঠিকানা খুলুন:
+   http://127.0.0.1:5000
+৭) Admin login password: ChangeMe123!
+৮) Admin dashboard-এ Create tracking room চাপুন। Invite link অন্য ফোন/ব্রাউজারে খুলুন।
+৯) Participant নিজের নাম ও ফোন নম্বর দেবে, consent checkbox টিক করবে, তারপর GPS permission Allow করবে।
+১০) Dashboard link-এ গিয়ে location দেখা যাবে।
+
+ML Demo:
+Dashboard-এ Add synthetic demo route চাপুন। তারপর DEMO (synthetic) participant-এর Predict movement চাপুন। এটি Kolkata-র আশেপাশের কৃত্রিম (ভুয়া/demo) coordinate; কারও real location নয়।
+
+সমস্যা হলে:
+- Python ইনস্টল আছে কি না দেখুন: https://www.python.org/downloads/
+- Python ইনস্টল করার সময় Add Python to PATH নির্বাচন করুন।
+- run_windows.bat চালানোর সময় কালো Window-তে error এলে Window বন্ধ না করে screenshot পাঠান।
+
+সতর্কতা:
+শুধু ফোন নম্বর দিয়ে কারও live GPS location জানা যায় না। Participant-এর নিজের সম্মতি এবং browser-এর location permission ছাড়া location share হবে না।

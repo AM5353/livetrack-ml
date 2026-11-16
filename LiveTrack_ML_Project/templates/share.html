@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block content %}<section class="panel narrow"><p class="eyebrow">PARTICIPANT MODE</p><h1>Share your location</h1><p>Press Start to allow your browser to share GPS updates. Keep this page open while sharing.</p>
+<div id="status" class="notice">Sharing is currently stopped.</div><button class="btn" id="start">Start sharing my location</button> <button class="btn danger" id="stop">Stop sharing</button><p id="msg"></p></section>{% endblock %}
+{% block scripts %}<script>
+let watchId=null;
+const status=document.getElementById('status'),msg=document.getElementById('msg');
+document.getElementById('start').onclick=()=>{
+ if(!navigator.geolocation){msg.textContent='Geolocation is not supported by this browser.';return;}
+ status.textContent='Waiting for GPS permission…';
+ watchId=navigator.geolocation.watchPosition(async pos=>{
+   const r=await fetch('/api/location',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lat:pos.coords.latitude,lon:pos.coords.longitude,accuracy:pos.coords.accuracy})});
+   const d=await r.json();status.textContent=d.ok?'Sharing location. Accuracy: about '+Math.round(pos.coords.accuracy)+' metres.':(d.error||'Update failed.');
+ },err=>{status.textContent='GPS error: '+err.message;},{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+};
+document.getElementById('stop').onclick=async()=>{if(watchId!==null)navigator.geolocation.clearWatch(watchId);watchId=null;await fetch('/api/stop',{method:'POST'});status.textContent='Sharing stopped.';msg.textContent='You have left this sharing session.'};
+</script>{% endblock %}

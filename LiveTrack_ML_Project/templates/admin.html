@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}<section class="panel"><p class="eyebrow">CONTROL CENTER</p><h1>Admin dashboard</h1><p>Create a private room and send its join link to a participant.</p>
+<button class="btn" id="create">＋ Create tracking room</button><div id="roomResult" class="room-result"></div><p><a href="/logout">Log out</a></p></section>
+{% endblock %}{% block scripts %}<script>
+document.getElementById('create').onclick=async()=>{const r=await fetch('/api/rooms',{method:'POST'});const d=await r.json();document.getElementById('roomResult').innerHTML=`<h3>Room ${d.code}</h3><p>Invite: <a href="${d.join_url}">${d.join_url}</a></p><p>Dashboard: <a href="${d.dashboard_url}">${d.dashboard_url}</a></p><button class="btn secondary" onclick="navigator.clipboard.writeText('${d.join_url}')">Copy invite link</button>`};
+</script>{% endblock %}

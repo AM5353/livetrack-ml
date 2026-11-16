@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block content %}<section class="dash-head"><div><p class="eyebrow">LIVE ROOM · {{code}}</p><h1>Tracking dashboard</h1><p>Only participants who joined and consented appear here.</p></div><div><button class="btn secondary" id="demo">Add synthetic demo route</button></div></section>
+<div id="map"></div><section class="panel"><h2>Participants</h2><div id="people">Loading…</div></section>{% endblock %}
+{% block scripts %}<script>
+const code='{{code}}', map=L.map('map').setView([22.5726,88.3639],13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
+const markers={};
+async function refresh(){const r=await fetch('/api/room/'+code+'/locations');const people=await r.json();let html='';
+for(const p of people){html+=`<div class="person"><div><b>${p.display_name}</b><small>Phone ending ${p.phone_last4||'----'} · ${p.sharing?'Sharing':'Stopped'}</small><small>${p.recorded_at||'No GPS point yet'}</small></div><div>${p.lat!==null?Number(p.lat).toFixed(5)+', '+Number(p.lon).toFixed(5):'Waiting for GPS'}<br><button class="small" onclick="predict('${p.id}')">Predict movement</button> <button class="small danger" onclick="removePerson('${p.id}')">Delete data</button></div></div>`;
+if(p.lat!==null){const ll=[p.lat,p.lon];if(markers[p.id])markers[p.id].setLatLng(ll);else markers[p.id]=L.marker(ll).addTo(map).bindPopup(p.display_name);}}
+document.getElementById('people').innerHTML=html||'No participants yet.';}
+async function predict(id){const r=await fetch('/api/predict/'+id);const d=await r.json();alert(d.available?'Predicted next coordinate: '+d.lat.toFixed(5)+', '+d.lon.toFixed(5)+'\\n'+d.note:d.message);}
+async function removePerson(id){if(!confirm('Permanently delete this participant and their location history?'))return;await fetch('/api/delete/'+id,{method:'POST'});refresh();}
+document.getElementById('demo').onclick=async()=>{await fetch('/api/demo/'+code,{method:'POST'});refresh();};
+refresh();setInterval(refresh,5000);
+</script>{% endblock %}

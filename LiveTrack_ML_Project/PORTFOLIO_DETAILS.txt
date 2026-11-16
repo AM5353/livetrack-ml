@@ -1,0 +1,14 @@
+Suggested GitHub repository name:
+livetrack-ml
+
+Suggested short description:
+Consent-based live GPS sharing web app with a Flask backend, Leaflet map, SQLite storage, and an experimental Random Forest mobility forecast.
+
+Suggested topics:
+python, flask, machine-learning, scikit-learn, geolocation, gps, sqlite, leaflet, openstreetmap, web-application
+
+Suggested About-website URL:
+Leave blank until you deploy a public demo over HTTPS. The local address 127.0.0.1 is only available on your own computer.
+
+Suggested first release:
+v1.0.0 — College demonstration prototype
